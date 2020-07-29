@@ -1,0 +1,43 @@
+$orange: #ffbe61;
+$blue: #222f3f;
+$light: #eee;
+$border: #ccc;
+$gray: #888;
+$red: rgb(230, 22, 22);
+// Variables
+$bps: (
+  "xl": 1200px,
+  "lg": 992px,
+  "md": 768px,
+  "sm": 576px,
+  "xs": 375px,
+) !default;
+// Mixin
+@mixin res($bp, $m: max) {
+  // If the key exists in the map
+  @if map-has-key($bps, $bp) {
+    // Prints a media query based on the value
+    @media (#{$m}-width: map-get($bps, $bp)) {
+      @content;
+    }
+  }
+  // If the key doesn't exist in the map
+  @else {
+    @warn "There no `#{$bp}`"
+          + "Available breakpoints are: #{map-keys($bps)}.";
+  }
+}
+@mixin d-flex($justify: center, $algin: center, $dir: row) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $algin;
+  flex-direction: $dir;
+  flex-wrap: wrap;
+}
+@mixin d-grid($col, $row: 1fr, $justify: center, $align: stretch) {
+  display: grid;
+  grid-template-columns: $col;
+  grid-template-rows: $row;
+  justify-content: $justify;
+  align-content: $align;
+}

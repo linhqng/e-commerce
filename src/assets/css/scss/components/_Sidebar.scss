@@ -1,0 +1,43 @@
+.sidebar {
+  position: fixed;
+  overflow-y: auto;
+  top: 60px;
+  left: 0;
+  bottom: 0;
+  width: 230px;
+  padding: 20px;
+  border-right: 1px solid $light;
+  &__clear {
+    display: block;
+    border-color: $border;
+    margin-bottom: 16px;
+    font-size: 13px;
+    span {
+      margin-left: 5px;
+    }
+    &:hover {
+      transform: none;
+      color: white;
+      background-color: $orange;
+      border-color: $orange;
+    }
+  }
+  &__title {
+    font-size: 1.6rem;
+    color: $gray;
+    margin: 0 0 15px;
+  }
+  &__link {
+    display: block;
+    margin-bottom: 10px;
+    span {
+      font-family: Verdana, sans-serif;
+      font-size: 13px;
+      margin-left: 3px;
+    }
+    &:hover {
+      transform: translateX(3px);
+      color: $orange;
+    }
+  }
+}

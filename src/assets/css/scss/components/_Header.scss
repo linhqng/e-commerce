@@ -1,0 +1,49 @@
+.header {
+  position: fixed;
+  width: 100%;
+  z-index: 99;
+  background-color: $blue;
+  padding: 10px;
+  &__wrapper {
+    @include d-flex(space-between);
+  }
+  &__left {
+    @include d-flex;
+  }
+  &__logo {
+    @include d-flex;
+    img {
+      max-width: 40px;
+    }
+    span {
+      margin-right: 16px;
+      margin-left: 16px;
+      font-size: 30px;
+      font-weight: bold;
+      color: #ffffff;
+      font-family: Verdana, sans-serif;
+    }
+  }
+  &__search {
+    display: inline-block;
+    input {
+      width: 300px;
+      height: 30px;
+      font-family: Verdana, sans-serif;
+      border: 0;
+      padding: 6px 12px;
+      font-size: 14px;
+      border-radius: 5px 0 0 5px;
+    }
+    a {
+      background-color: $orange;
+      position: relative;
+      right: 3px;
+      border-radius: 0 5px 5px 0;
+      padding: 7px 30px;
+    }
+  }
+  &__right {
+    padding-right: 50px;
+  }
+}

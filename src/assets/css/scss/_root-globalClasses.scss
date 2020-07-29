@@ -1,0 +1,97 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+html {
+  font-size: 62.5%;
+}
+body {
+  font-family: Verdana, sans-serif;
+  font-weight: 400;
+}
+a {
+  text-decoration-color: transparent;
+  cursor: pointer;
+  &:visited {
+    color: inherit;
+  }
+}
+button,
+i,
+input {
+  border: none;
+  &:focus {
+    outline: none;
+  }
+}
+img {
+  max-width: 100%;
+  vertical-align: middle;
+  border-style: none;
+}
+.container {
+  max-width: 1200px;
+  padding: 0 15px;
+  margin: 0 auto;
+  @include res("xl") {
+    max-width: 960px;
+  }
+  @include res("lg") {
+    max-width: 720px;
+  }
+  @include res("md") {
+    max-width: 540px;
+  }
+  @include res("sm") {
+    width: 100%;
+  }
+}
+.app {
+  position: relative;
+}
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid transparent;
+  border-radius: 5px;
+}
+.hover {
+  transition: 0.3s;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+a.active {
+  padding-left: 5px;
+  color: $orange;
+}
+a.hide {
+  display: none;
+}
+.noItem {
+  visibility: hidden;
+}
+a.cart__icon {
+  position: relative;
+  font-size: 30px;
+  color: #ffbe61;
+  span {
+    position: absolute;
+    top: 12%;
+    left: 10%;
+    color: $red;
+    font-size: 16px;
+    transition: 0.5s;
+    &.noItem {
+      top: -50%;
+      font-size: 0px;
+    }
+  }
+}

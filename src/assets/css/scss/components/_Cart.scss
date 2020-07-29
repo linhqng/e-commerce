@@ -1,0 +1,118 @@
+.cart {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  &.close {
+    width: 80%;
+    opacity: 0;
+    visibility: hidden;
+  }
+  &__inner {
+    position: absolute;
+    right: 0;
+    width: 600px;
+    height: 100%;
+    background-color: rgb(48, 48, 48);
+    padding: 10px;
+  }
+  &__top {
+    position: relative;
+    text-align: center;
+    margin-bottom: 30px;
+    & a.cart__close {
+      position: absolute;
+      left: 0;
+      font-size: 25px;
+      &:hover {
+        transform: unset;
+        color: $orange;
+      }
+      color: $light;
+    }
+  }
+  &__icon {
+    font-size: 30px;
+    color: $orange;
+    span {
+      margin-left: 10px;
+      color: $light;
+    }
+  }
+  &__bot {
+    border-bottom: 1px solid $light;
+    padding: 0 10px 20px;
+    span {
+      margin-top: 20px;
+      font-size: 16px;
+      color: $light;
+    }
+  }
+  &__item {
+    @include d-grid(80px 200px 1fr 1fr 1fr);
+    margin: 0 0 20px;
+    position: relative;
+    &:last-child {
+      margin: 0;
+    }
+    &:first-child {
+      border-bottom: 1px solid white;
+    }
+    &-header {
+      color: $orange;
+      font-size: 16px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+    &-image {
+      height: 80px;
+      margin: 0 auto;
+    }
+    &-name {
+      color: $light;
+      font-size: 14px;
+      max-width: 200px;
+      padding: 0 20px;
+    }
+    &-price {
+      color: $orange;
+      font-size: 16px;
+    }
+    &-quantity {
+      color: $orange;
+      font-size: 16px;
+    }
+    & a.cart__item-dlt {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      font-size: 35px;
+      color: $red;
+      &:hover {
+        color: $orange;
+      }
+    }
+  }
+  &__total {
+    padding: 10px 20px 30px;
+    color: $orange;
+    font-size: 25px;
+    span {
+      float: right;
+    }
+  }
+  &__checkout {
+    text-align: center;
+    button {
+      background-color: $light;
+      color: black;
+      &:hover {
+        background-color: $orange;
+      }
+    }
+  }
+}
