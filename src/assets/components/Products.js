@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 const Products = (props) => {
   const [products, setProducts] = useState(props.products);
   const [select, setSelect] = useState("fea");
-
-  // Sort products
+  const type = props.type;
   useEffect(() => {
     if (select === "asc") {
       setProducts(() =>
@@ -25,10 +24,29 @@ const Products = (props) => {
       setProducts(props.products);
     }
   }, [select, props.products]);
-
-  // Handle selecting sort way
   const handleSelect = (e) => {
     setSelect(e.target.value);
+  };
+  const addCart = (value) => {
+    props.handleCartStatus(true);
+    const cartItems = JSON.parse(localStorage.getItem("cart"));
+    if (cartItems === null)
+      return localStorage.setItem(
+        "cart",
+        JSON.stringify([{ ["id" + value]: 1 }])
+      );
+    const indexItem = cartItems.findIndex(
+      (el) => Object.keys(el)[0] === "id" + value
+    );
+    if (indexItem !== -1) {
+      const valueItem = Object.values(cartItems[indexItem])[0];
+      cartItems[indexItem] = { ["id" + value]: valueItem + 1 };
+      return localStorage.setItem("cart", JSON.stringify(cartItems));
+    } else
+      return localStorage.setItem(
+        "cart",
+        JSON.stringify([...cartItems, { ["id" + value]: 1 }])
+      );
   };
 
   return (
@@ -42,9 +60,17 @@ const Products = (props) => {
         </select>
       </div>
       <div className="products__wrapper">
-        {products.map((el) => (
-          <Product key={el.id} item={el} addCart={props.addCart} />
-        ))}
+        {type === ""
+          ? products.map((el) =>
+              el.highlight === true ? (
+                <Product key={el.id} item={el} addCart={addCart} />
+              ) : null
+            )
+          : products.map((el) =>
+              el.type === type ? (
+                <Product key={el.id} item={el} addCart={addCart} />
+              ) : null
+            )}
       </div>
     </main>
   );

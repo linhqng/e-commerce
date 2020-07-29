@@ -4,39 +4,65 @@ import { useEffect, useRef, useState } from "react";
 const Cart = (props) => {
   const url = "";
   const cartBox = useRef();
-  const [total, setTotal] = useState([]);
 
-  // Open cart box
   useEffect(() => {
     return props.openCartState
       ? cartBox.current.classList.remove("close")
       : cartBox.current.classList.add("close");
   }, [props.openCartState]);
 
-  // Handle total price
-  useEffect(() => {
-    let totalArr = [];
-    if (props.productsCart.length === 0) return setTotal("$0");
-    else {
-      props.productsCart.forEach((el) => {
-        totalArr = [...totalArr, Number(el.price.slice(1)) * el.quantity];
-      });
-    }
-    setTotal("$" + totalArr.reduce((a, b) => a + b, 0).toFixed(2));
-  }, [total, props.productsCart]);
-
-  // Handle close function
   const closeCart = (e) => {
     e.preventDefault();
     cartBox.current.classList.add("close");
-    props.closeCart();
+    props.closeCart(false);
   };
 
-  // Handle check out button
-  const checkOut = () => {
-    document.body.scrollIntoView({ behavior: "smooth" });
-    props.checkOut();
+  const [products, setProducts] = useState(props.products);
+  const [storage, setStorage] = useState(
+    JSON.parse(localStorage.getItem("cart"))
+  );
+
+  useEffect(() => {
+    setProducts(props.products);
+  }, [props.products]);
+
+  const [total, setTotal] = useState([]);
+  useEffect(() => {
+    let totalArr = [];
+    if (storage === null) setTotal("$0");
+    else {
+      storage.forEach((el) => {
+        const id = Number(Object.keys(el)[0].slice(2));
+        products.forEach((elem) => {
+          if (elem.id === id)
+            totalArr = [
+              ...totalArr,
+              Number(elem.price.slice(1)) * el["id" + id],
+            ];
+        });
+      });
+    }
+    setTotal("$" + totalArr.reduce((a, b) => a + b, 0).toFixed(2));
+  }, [total, products, storage]);
+
+  const deleteCartItem = (value) => {
+    setStorage(
+      storage.length === 1
+        ? null
+        : [...storage].filter((el) => Object.keys(el)[0] !== "id" + value)
+    );
+    props.handleCartStatus(localStorage.length);
   };
+  const clearStorage = () => {
+    localStorage.clear();
+    setStorage(null);
+    props.handleCartStatus(false);
+  };
+  useEffect(() => {
+    return props.openCartState
+      ? setStorage(JSON.parse(localStorage.getItem("cart")))
+      : undefined;
+  }, [props.openCartState]);
 
   return (
     <aside className="cart close" ref={cartBox}>
@@ -58,16 +84,22 @@ const Cart = (props) => {
             <div className="cart__item-header">Qty</div>
             <div className="cart__item-header">SubTotal</div>
           </div>
-          {props.productsCart.length === 0 ? (
-            <span> There are no items added to Cart!</span>
+          {storage !== null ? (
+            storage.map((el) => {
+              const id = Number(Object.keys(el)[0].slice(2));
+              return products.map((elem) =>
+                elem.id === id ? (
+                  <CartItem
+                    key={id}
+                    item={elem}
+                    quantity={el["id" + id]}
+                    deleteCartItem={deleteCartItem}
+                  />
+                ) : null
+              );
+            })
           ) : (
-            props.productsCart.map((elem) => (
-              <CartItem
-                key={elem.id}
-                item={elem}
-                deleteCartItem={props.deleteCartItem}
-              />
-            ))
+            <span> There are no items added to Cart!</span>
           )}
         </div>
         <div className="cart__total">
@@ -75,7 +107,7 @@ const Cart = (props) => {
           <span>{total}</span>
         </div>
         <div className="cart__checkout">
-          <button className="btn hover" onClick={checkOut}>
+          <button className="btn hover" onClick={clearStorage}>
             CHECK OUT
           </button>
         </div>
@@ -96,10 +128,9 @@ const CartItem = (props) => {
       <img src={props.item.img} className="cart__item-image" alt="cart item" />
       <div className="cart__item-name">{props.item.name}</div>
       <div className="cart__item-price">{props.item.price}</div>
-      <div className="cart__item-quantity">×{props.item.quantity}</div>
+      <div className="cart__item-quantity">×{props.quantity}</div>
       <div className="cart__item-price">
-        {"$" +
-          (Number(props.item.price.slice(1)) * props.item.quantity).toFixed(2)}
+        {"$" + (Number(props.item.price.slice(1)) * props.quantity).toFixed(2)}
       </div>
       <a href={url} className="cart__item-dlt hover" onClick={deleteCartItem}>
         ×
@@ -113,11 +144,10 @@ export const CartBtn = (props) => {
   const url = "";
   const openCart = (e) => {
     e.preventDefault();
-    document.body.scrollIntoView({ behavior: "smooth" });
-    props.openCart();
+    props.openCart(true);
   };
   useEffect(() => {
-    Boolean(props.cartStatus)
+    props.cartStatus
       ? cartStatusEle.current.classList.remove("noItem")
       : cartStatusEle.current.classList.add("noItem");
   }, [props.cartStatus]);

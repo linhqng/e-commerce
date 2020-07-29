@@ -2,10 +2,7 @@ import React from "react";
 
 const Sidebar = (props) => {
   const url = "";
-  // Define clear filter button
   const clearBtn = document.querySelector(".sidebar__clear");
-
-  // Handle clear filter
   const handleClear = (e) => {
     e.preventDefault();
     clearBtn.classList.add("hide");
@@ -14,8 +11,6 @@ const Sidebar = (props) => {
     );
     props.handleClear();
   };
-
-  // Active category
   const handleSidebar = (value) => {
     clearBtn.classList.remove("hide");
     [...document.querySelectorAll(".sidebar__link")].map((el) => {
