@@ -14,7 +14,7 @@ const App = () => {
   const [cartStatus, setCartStatus] = useState(localStorage.length);
   const [openCartState, setOpenCartState] = useState(false);
   useEffect(() => {
-    fetch("http://localhost:3000/products")
+    fetch("http://localhost:8000/products")
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);
